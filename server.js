@@ -13,3 +13,4 @@ const connect = mysql.createConnection(
     },
     console.log("Connected to the employee_db table")
 ); 
+
