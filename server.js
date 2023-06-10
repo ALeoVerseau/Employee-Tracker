@@ -49,8 +49,8 @@ function homeScreen () {inquirer.prompt([
     case 'Add Department':
         addDepartment();
         return;
-    case 'Add Role':
-        addRole();
+    case 'Add Roles':
+        addRoles();
         return;
     case 'Add Employee':
         addEmployee();
@@ -90,7 +90,7 @@ const addDepartment = () => {
   })
 }
 
-const addRole = () => {
+const addRoles = () => {
   return inquirer.prompt([
     {
       type: 'input',
@@ -105,7 +105,7 @@ const addRole = () => {
     {
       type: 'input',
       name: 'departmentId',
-      message: 'Enter a department ID',
+      message: 'Enter a department Id',
     },
   ])
 
@@ -113,7 +113,7 @@ const addRole = () => {
     const title = answers.title;
     const salary = answers.salary;
     const departmentId = answers.departmentId;
-    const sq1 = `INSERT INTO role (title, salary, department_id) VALUES ('${answers.title}', '${answers.salary}', ${answers.departmentID})`;
+    const sq1 = `INSERT INTO role (title, salary, department_id) VALUES ('${answers.title}', '${answers.salary}', ${answers.departmentId})`;
     
     connect.query(sq1, (err, result) => {
       if (err) throw err;
@@ -135,12 +135,12 @@ const addEmployee = () => {
     },
     {
       type: 'input',
-      name: 'roleID',
-      message: 'Enter a role ID',
+      name: 'rolesId',
+      message: 'Enter a roles Id',
     },
     {
       type: 'input',
-      name: 'managerID',
+      name: 'managerId',
       message: 'Enter a manager',
     },
   ])
@@ -148,12 +148,9 @@ const addEmployee = () => {
   .then((answers) => {
     const firstName = answers.firstName;
     const lastName = answers.lastName;
-    // const sq2 = `INSERT INTO employee (last_name) VALUES ('${answers.lastName}')`;
-    const role = answers.roleID;
-    // const sq3 = `INSERT INTO employee (role_id) VALUES ('${answers.roleID}')`;
-    const manager = answers.managerID;
-    // const sq4 = `INSERT INTO employee (manager_id) VALUES ('${answers.managerID}')`;
-    const sq1 = `INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES ('${answers.firstName}', '${answers.lastName}', ${answers.roleID}, ${answers.managerID})`;
+    const roles = answers.rolesId;
+    const manager = answers.managerId;
+    const sq1 = `INSERT INTO employee (first_name, last_name, roles_id, manager_id) VALUES ('${answers.firstName}', '${answers.lastName}', ${answers.rolesId}, ${answers.managerId})`;
     
     connection.query(sq1, (err, result) => {
       if (err) throw err;
