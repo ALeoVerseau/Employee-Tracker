@@ -39,7 +39,7 @@ function homeScreen () {inquirer.prompt([
     type: 'list',
     name: 'function',
     message: 'select an action',
-    choices: ['Add Department', 'Add Role', 'Add Employee', 'View Departments', 'View Roles', 'View Employees']
+    choices: ['Add Department', 'Add Roles', 'Add Employees', 'View Departments', 'View Roles', 'View Employees']
   }
 ])
 
@@ -52,8 +52,8 @@ function homeScreen () {inquirer.prompt([
     case 'Add Roles':
         addRoles();
         return;
-    case 'Add Employee':
-        addEmployee();
+    case 'Add Employees':
+        addEmployees();
         return;
     case 'View Departments':
         viewDepartments();
@@ -79,19 +79,20 @@ const addDepartment = () => {
     },
   ])
 
-  .then((answers) => {
-    const department = answers.department;
-    const sq1 = `INSERT INTO department (name) VALUES ('${answers.department}')`;
+  .then((answer) => {
+    const department = answer.department;
+    const sq1 = `INSERT INTO department (dept_name) VALUES ('${answer.department}')`;
     
-    connection.query(sq1, (err, result) => {
+    connect.query(sq1, (err, result) => {
       if (err) throw err;
-      console.log(result);
+      // console.log(result);
+      homeScreen();
     });
   })
 }
 
 const addRoles = () => {
-  return inquirer.prompt([
+  inquirer.prompt([
     {
       type: 'input',
       name: 'title',
@@ -105,23 +106,23 @@ const addRoles = () => {
     {
       type: 'input',
       name: 'departmentId',
-      message: 'Enter a department Id',
+      message: 'Enter a department id',
     },
   ])
-
-  .then((answers) => {
-    const title = answers.title;
-    const salary = answers.salary;
-    const departmentId = answers.departmentId;
-    const sq1 = `INSERT INTO role (title, salary, department_id) VALUES ('${answers.title}', '${answers.salary}', ${answers.departmentId})`;
+  .then((answer) => {
+    const title = answer.title;
+    const salary = answer.salary;
+    const departmentId = answer.departmentId;
+    const sq1 = `INSERT INTO roles (title, salary, department_id) VALUES ('${title}', '${salary}', ${departmentId})`;
     
     connect.query(sq1, (err, result) => {
       if (err) throw err;
-      console.log(result);
+      // console.log(result);
+      homeScreen();
     });
   })
 }
-const addEmployee = () => {
+const addEmployees = () => {
   return inquirer.prompt([
     {
       type: 'input',
@@ -145,16 +146,17 @@ const addEmployee = () => {
     },
   ])
 
-  .then((answers) => {
-    const firstName = answers.firstName;
-    const lastName = answers.lastName;
-    const roles = answers.rolesId;
-    const manager = answers.managerId;
-    const sq1 = `INSERT INTO employee (first_name, last_name, roles_id, manager_id) VALUES ('${answers.firstName}', '${answers.lastName}', ${answers.rolesId}, ${answers.managerId})`;
+  .then((answer) => {
+    const firstName = answer.firstName;
+    const lastName = answer.lastName;
+    const roles = answer.rolesId;
+    const manager = answer.managerId;
+    const sq1 = `INSERT INTO employees (first_name, last_name, roles_id, manager_id) VALUES ('${firstName}', '${lastName}', ${roles}, ${manager})`;
     
-    connection.query(sq1, (err, result) => {
+    connect.query(sq1, (err, result) => {
       if (err) throw err;
-      console.log(result);
+      // console.log(result);
+      homeScreen();
     });
   })
 }
